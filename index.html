@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>world happiness study</title>
+
+    <style>
+      body, html {
+        height: 100%;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      }
+
+      .title {
+        display: flex;
+        flex-direction: column;
+        font-size: 60px;
+        position: relative;
+        left: 40%;
+        top: 20px;
+        width: 660px;
+      }
+
+      #subtitle {
+        display: flex;
+        flex-direction: column;
+        font-size: 20px;
+        position: relative;
+        left: 36%;
+        top: -67px;
+      }
+
+      #subtitle2 {
+        display: flex;
+        flex-direction: column;
+        font-size: 20px;
+        position: relative;
+        left: 32%;
+        top: -52px;
+      }
+
+      #gdp {
+        width: calc(100px * 8);
+        margin: auto;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+      }
+
+      #gdp > div {
+        --space: 20px;
+        height: calc(1rem + var(--space));
+        margin: var(--space);
+        padding: var(--sapce);
+        position: relative;
+        border-radius: calc(1rem + var(--space) * 2);
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      #gdp > div > span {
+        margin: 15px;
+      } 
+
+      #social {
+        width: calc(100px * 8);
+        margin: auto;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+      }
+
+      #social > div {
+        --space: 20px;
+        height: calc(1rem + var(--space));
+        margin: var(--space);
+        padding: var(--sapce);
+        position: relative;
+        border-radius: calc(1rem + var(--space) * 2);
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      #social > div > span {
+        margin: 15px;
+      } 
+
+      #health {
+        width: calc(100px * 8);
+        margin: auto;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+      }
+
+      #health > div {
+        --space: 20px;
+        height: calc(1rem + var(--space));
+        margin: var(--space);
+        padding: var(--sapce);
+        position: relative;
+        border-radius: calc(1rem + var(--space) * 2);
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      #health > div > span {
+        margin: 15px;
+      } 
+
+      #generosity {
+        width: calc(100px * 8);
+        margin: auto;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+      }
+
+      #generosity > div {
+        --space: 20px;
+        height: calc(1rem + var(--space));
+        margin: var(--space);
+        padding: var(--sapce);
+        position: relative;
+        border-radius: calc(1rem + var(--space) * 2);
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      #generosity > div > span {
+        margin: 15px;
+      } 
+
+      h3 {
+        position: relative;
+        left: 400px;
+        font-size: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title">
+      <p>World Happiness Study</p>
+      <p id="subtitle2">
+        ( 2019, 156 Countries)
+      </p>
+      <p id=subtitle>FEW 2.5 - Sandy</p>
+    </div>
+    
+    <h3>GDP per capita:</h3>
+    <div id="gdp">
+      <!-- gdp -->
+    </div>
+
+    <h3>Generosity:</h3>
+    <div id="generosity">
+      <!-- generosity -->
+    </div>
+
+    <h3>Healthy life expectancy:</h3>
+    <div id="health">
+      <!-- health -->
+    </div>
+
+    <h3>Social support:</h3>
+    <div id="social">
+      <!-- social -->
+    </div>
+    <script src="data/happiness-2019.js"></script>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script>
+        // console.log(data.length) 
+        // 156 countries
+        // console.log(data[156].rank)
+        // ranked in order 
+        const happyCountries = data.reduce((countries, happy) => {
+          if (countries[happy.country] !== undefined) {
+            countries[happy.country] += 1
+          } else {
+            countries[happy.country] = 1
+          }
+          return countries
+        }, {})
+
+        const gdpPerCapita = data.sort((max, place) => {
+          if(max.gdp > place.gdp) {
+            return -1
+          } else if (max.gdp > place.gdp) {
+            return 1
+          }
+          return 0
+        })
+        
+        const generosity = data.reduce((max, place) => {
+          if(max.generosity > place.generosity) {
+            return -1
+          } else if (max.generosity > place.generosity) {
+            return 1
+          }
+          return 0
+        })
+
+        const socialSupport = data.reduce((max, place) => {
+          if(max.support > place.support) {
+            return -1
+          } else if (max.support > place.support) {
+            return 1
+          }
+          return 0
+        })
+
+        const healthLife = data.reduce((max, place) => {
+          if(max.health > place.health) {
+            return -1
+          } else if (max.health > place.health) {
+            return 1
+          }
+          return 0
+        })
+
+        const els = data.forEach((place, i) => {
+        const el = document.createElement('div')
+        el.innerHTML = `<span>${place.gdp} ${place.country} </span>`
+        const size = place.gdp / gdpPerCapita
+        el.style.width = `${size * 10}%`
+        el.style.height = `${size * 10}%`
+        el.style.backgroundColor = 'lightgreen'
+        document.getElementById('gdp').appendChild(el)
+      })
+
+      const els2 = data.forEach((place, i) => {
+        const el = document.createElement('div')
+        el.innerHTML = `<span>${place.support} ${place.country} </span>`
+        const size = place.support / socialSupport
+        el.style.width = `${size * 10}%`
+        el.style.height = `${size * 10}%`
+        el.style.backgroundColor = 'lightblue'
+        document.getElementById('social').appendChild(el)
+      })
+
+      const els3 = data.forEach((place, i) => {
+        const el = document.createElement('div')
+        el.innerHTML = `<span>${place.health} ${place.country} </span>`
+        const size = place.health / healthLife
+        el.style.width = `${size * 10}%`
+        el.style.height = `${size * 10}%`
+        el.style.backgroundColor = 'yellow'
+        document.getElementById('health').appendChild(el)
+      })
+
+      const els4 = data.forEach((place, i) => {
+        const el = document.createElement('div')
+        el.innerHTML = `<span>${place.generosity} ${place.country} </span>`
+        const size = place.generosity / generosity
+        el.style.width = `${size * 10}%`
+        el.style.height = `${size * 10}%`
+        el.style.backgroundColor = 'orange'
+        document.getElementById('generosity').appendChild(el)
+      })
+    </script>
+  </body>
+</html>
+
