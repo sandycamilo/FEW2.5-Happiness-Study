@@ -8,7 +8,7 @@
     <style>
       body, html {
         height: 100%;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-family: sans-serif;
       }
 
       .title {
@@ -16,7 +16,7 @@
         flex-direction: column;
         font-size: 60px;
         position: relative;
-        left: 40%;
+        left: 38%;
         top: 20px;
         width: 660px;
       }
@@ -53,6 +53,7 @@
         margin: var(--space);
         padding: var(--sapce);
         position: relative;
+        left: -200px;
         border-radius: calc(1rem + var(--space) * 2);
         display: flex;
         justify-content: flex-start;
@@ -78,6 +79,7 @@
         margin: var(--space);
         padding: var(--sapce);
         position: relative;
+        left: -200px;
         border-radius: calc(1rem + var(--space) * 2);
         display: flex;
         justify-content: flex-start;
@@ -103,6 +105,7 @@
         margin: var(--space);
         padding: var(--sapce);
         position: relative;
+        left: -200px;
         border-radius: calc(1rem + var(--space) * 2);
         display: flex;
         justify-content: flex-start;
@@ -128,6 +131,7 @@
         margin: var(--space);
         padding: var(--sapce);
         position: relative;
+        left: -200px;
         border-radius: calc(1rem + var(--space) * 2);
         display: flex;
         justify-content: flex-start;
@@ -141,8 +145,10 @@
 
       h3 {
         position: relative;
-        left: 400px;
-        font-size: 40px;
+        left: 26%;
+        top: 10px;
+        font-size: 25px;
+        font-weight: lighter;
       }
     </style>
   </head>
@@ -175,94 +181,54 @@
       <!-- social -->
     </div>
     <script src="data/happiness-2019.js"></script>
-    <script src="https://d3js.org/d3.v6.min.js"></script>
     <script>
-        // console.log(data.length) 
-        // 156 countries
-        // console.log(data[156].rank)
-        // ranked in order 
-        const happyCountries = data.reduce((countries, happy) => {
-          if (countries[happy.country] !== undefined) {
-            countries[happy.country] += 1
-          } else {
-            countries[happy.country] = 1
-          }
-          return countries
-        }, {})
+    const tophappy = data.slice(0, 10)
 
-        const gdpPerCapita = data.sort((max, place) => {
-          if(max.gdp > place.gdp) {
-            return -1
-          } else if (max.gdp > place.gdp) {
-            return 1
-          }
-          return 0
-        })
-        
-        const generosity = data.reduce((max, place) => {
-          if(max.generosity > place.generosity) {
-            return -1
-          } else if (max.generosity > place.generosity) {
-            return 1
-          }
-          return 0
-        })
+    tophappy.reduce((a, b) => {
+      return a.support - b.support
+    })
 
-        const socialSupport = data.reduce((max, place) => {
-          if(max.support > place.support) {
-            return -1
-          } else if (max.support > place.support) {
-            return 1
-          }
-          return 0
-        })
-
-        const healthLife = data.reduce((max, place) => {
-          if(max.health > place.health) {
-            return -1
-          } else if (max.health > place.health) {
-            return 1
-          }
-          return 0
-        })
-
-        const els = data.forEach((place, i) => {
+      const els = tophappy.forEach((b, i) => {
         const el = document.createElement('div')
-        el.innerHTML = `<span>${place.gdp} ${place.country} </span>`
-        const size = place.gdp / gdpPerCapita
+        el.innerHTML = `<span>${b.gdp} ${b.country} </span>`
+        const size = b.gdp
         el.style.width = `${size * 10}%`
-        el.style.height = `${size * 10}%`
+        el.style.height = '200px'
         el.style.backgroundColor = 'lightgreen'
+        el.style.color = 'green'
         document.getElementById('gdp').appendChild(el)
-      })
+    })
 
-      const els2 = data.forEach((place, i) => {
+      const els2 = tophappy.forEach((b, i) => {
         const el = document.createElement('div')
-        el.innerHTML = `<span>${place.support} ${place.country} </span>`
-        const size = place.support / socialSupport
+        el.innerHTML = `<span>${b.support} ${b.country} </span>`
+        const size = b.support
         el.style.width = `${size * 10}%`
-        el.style.height = `${size * 10}%`
+        el.style.height = '200px'
         el.style.backgroundColor = 'lightblue'
+        el.style.color = 'blue'
         document.getElementById('social').appendChild(el)
       })
 
-      const els3 = data.forEach((place, i) => {
+      const els3 = tophappy.forEach((b, i) => {
         const el = document.createElement('div')
-        el.innerHTML = `<span>${place.health} ${place.country} </span>`
-        const size = place.health / healthLife
-        el.style.width = `${size * 10}%`
-        el.style.height = `${size * 10}%`
+        el.innerHTML = `<span>${b.health} ${b.country} </span>`
+        const size = b.health
+        el.style.width = `${size * 100}%`
+        el.style.height = '200px'
         el.style.backgroundColor = 'yellow'
+        el.style.color = 'tomato'
         document.getElementById('health').appendChild(el)
       })
 
-      const els4 = data.forEach((place, i) => {
+      const els4 = tophappy.forEach((b, i) => {
         const el = document.createElement('div')
-        el.innerHTML = `<span>${place.generosity} ${place.country} </span>`
-        const size = place.generosity / generosity
-        el.style.width = `${size * 10}%`
-        el.style.height = `${size * 10}%`
+        el.innerHTML = `<span>${b.generosity} ${b.country} </span>`
+        const size = b.generosity
+        el.style.width = `${size * 100}%`
+        el.style.height = '200px'
         el.style.backgroundColor = 'orange'
+        el.style.color = 'white'
         document.getElementById('generosity').appendChild(el)
       })
     </script>
